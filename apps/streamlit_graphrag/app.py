@@ -25,6 +25,7 @@ terminal_placeholder = None  # will hold st.empty() when created
 from graphrag.cli.initialize import initialize_project_at
 from graphrag.config.load_config import load_config
 from graphrag.config.enums import IndexingMethod, SearchMethod
+from graphrag.config.models.chunking_config import ChunkStrategyType
 from graphrag.api.index import build_index
 import graphrag.api.query as query_api
 import graphrag.api.prompt_tune as prompt_api
@@ -678,6 +679,25 @@ with st.sidebar:
 
     st.divider()
     st.caption("Index erstellen")
+    # Lade Konfig um Defaultwerte für Chunking zu zeigen
+    try:
+        _cfg_preview = load_config(root_dir, cfg_path) if cfg_path else load_config(root_dir)
+        _default_chunk_size = int(getattr(_cfg_preview.chunks, "size", 1200))
+        _default_chunk_overlap = int(getattr(_cfg_preview.chunks, "overlap", 100))
+        _default_chunk_strategy = getattr(_cfg_preview.chunks, "strategy", ChunkStrategyType.tokens)
+    except Exception:
+        _default_chunk_size = 1200
+        _default_chunk_overlap = 100
+        _default_chunk_strategy = ChunkStrategyType.tokens
+
+    colc1, colc2, colc3 = st.columns(3)
+    with colc1:
+        chunk_size_ui = st.number_input("Chunk-Größe (Tokens)", min_value=64, max_value=8192, value=_default_chunk_size, step=64, key="chunk_size_index")
+    with colc2:
+        chunk_overlap_ui = st.number_input("Overlap (Tokens)", min_value=0, max_value=2048, value=_default_chunk_overlap, step=32, key="chunk_overlap_index")
+    with colc3:
+        chunk_strategy_ui = st.selectbox("Chunk-Strategie", [ChunkStrategyType.tokens.value, ChunkStrategyType.sentence.value], index=0 if _default_chunk_strategy==ChunkStrategyType.tokens else 1, key="chunk_strategy_index")
+
     idx_method = st.selectbox(
         "Indexierungsmethode",
         [IndexingMethod.Standard.value, IndexingMethod.Fast.value],
@@ -686,6 +706,14 @@ with st.sidebar:
     if st.button("Index bauen"):
         try:
             cfg = load_config(root_dir, cfg_path) if cfg_path else load_config(root_dir)
+            # Übernehme Chunking-Settings aus der UI (nur für diese Laufzeit, keine Dateiänderung)
+            try:
+                cfg.chunks.size = int(st.session_state.get("chunk_size_index", chunk_size_ui))
+                cfg.chunks.overlap = int(st.session_state.get("chunk_overlap_index", chunk_overlap_ui))
+                sel = st.session_state.get("chunk_strategy_index", chunk_strategy_ui)
+                cfg.chunks.strategy = ChunkStrategyType.tokens if sel == ChunkStrategyType.tokens.value else ChunkStrategyType.sentence
+            except Exception:
+                pass
             if st.session_state.get("german_default"):
                 # Nur deutsche Ausgaberichtlinie an bestehende Prompts anhängen (keine _de‑Dateien verwenden)
                 apply_german_defaults(root_dir)
