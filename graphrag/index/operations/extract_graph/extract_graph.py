@@ -17,6 +17,7 @@ from graphrag.index.operations.extract_graph.typing import (
     ExtractEntityStrategyType,
 )
 from graphrag.index.utils.derive_from_rows import derive_from_rows
+from graphrag.logger.progress import Progress
 
 logger = logging.getLogger(__name__)
 
@@ -51,13 +52,24 @@ async def extract_graph(
         nonlocal num_started
         text = row[text_column]
         id = row[id_column]
+        # emit pre-progress: started
+        num_started += 1
+        try:
+            callbacks.progress(
+                Progress(
+                    description="extract graph started:",
+                    total_items=len(text_units),
+                    completed_items=num_started,
+                )
+            )
+        except Exception:
+            pass
         result = await strategy_exec(
             [Document(text=text, id=id)],
             entity_types,
             cache,
             strategy_config,
         )
-        num_started += 1
         return [result.entities, result.relationships, result.graph]
 
     results = await derive_from_rows(

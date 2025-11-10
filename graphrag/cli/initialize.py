@@ -30,6 +30,21 @@ from graphrag.prompts.query.global_search_reduce_system_prompt import (
 )
 from graphrag.prompts.query.local_search_system_prompt import LOCAL_SEARCH_SYSTEM_PROMPT
 from graphrag.prompts.query.question_gen_system_prompt import QUESTION_SYSTEM_PROMPT
+# German variants
+from graphrag.prompts.query.basic_search_system_prompt_de import BASIC_SEARCH_SYSTEM_PROMPT_DE
+from graphrag.prompts.query.drift_search_system_prompt_de import (
+    DRIFT_LOCAL_SYSTEM_PROMPT_DE,
+    DRIFT_REDUCE_PROMPT_DE,
+)
+from graphrag.prompts.query.global_search_knowledge_system_prompt_de import (
+    GENERAL_KNOWLEDGE_INSTRUCTION_DE,
+)
+from graphrag.prompts.query.global_search_map_system_prompt_de import MAP_SYSTEM_PROMPT_DE
+from graphrag.prompts.query.global_search_reduce_system_prompt_de import (
+    REDUCE_SYSTEM_PROMPT_DE,
+)
+from graphrag.prompts.query.local_search_system_prompt_de import LOCAL_SEARCH_SYSTEM_PROMPT_DE
+from graphrag.prompts.query.question_gen_system_prompt_de import QUESTION_SYSTEM_PROMPT_DE
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +93,7 @@ def initialize_project_at(path: Path, force: bool) -> None:
         "extract_claims": EXTRACT_CLAIMS_PROMPT,
         "community_report_graph": COMMUNITY_REPORT_PROMPT,
         "community_report_text": COMMUNITY_REPORT_TEXT_PROMPT,
+        # Query prompts EN
         "drift_search_system_prompt": DRIFT_LOCAL_SYSTEM_PROMPT,
         "drift_reduce_prompt": DRIFT_REDUCE_PROMPT,
         "global_search_map_system_prompt": MAP_SYSTEM_PROMPT,
@@ -86,6 +102,15 @@ def initialize_project_at(path: Path, force: bool) -> None:
         "local_search_system_prompt": LOCAL_SEARCH_SYSTEM_PROMPT,
         "basic_search_system_prompt": BASIC_SEARCH_SYSTEM_PROMPT,
         "question_gen_system_prompt": QUESTION_SYSTEM_PROMPT,
+        # Query prompts DE
+        "drift_search_system_prompt_de": DRIFT_LOCAL_SYSTEM_PROMPT_DE,
+        "drift_reduce_prompt_de": DRIFT_REDUCE_PROMPT_DE,
+        "global_search_map_system_prompt_de": MAP_SYSTEM_PROMPT_DE,
+        "global_search_reduce_system_prompt_de": REDUCE_SYSTEM_PROMPT_DE,
+        "global_search_knowledge_system_prompt_de": GENERAL_KNOWLEDGE_INSTRUCTION_DE,
+        "local_search_system_prompt_de": LOCAL_SEARCH_SYSTEM_PROMPT_DE,
+        "basic_search_system_prompt_de": BASIC_SEARCH_SYSTEM_PROMPT_DE,
+        "question_gen_system_prompt_de": QUESTION_SYSTEM_PROMPT_DE,
     }
 
     for name, content in prompts.items():

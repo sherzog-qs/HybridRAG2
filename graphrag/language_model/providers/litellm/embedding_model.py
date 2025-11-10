@@ -37,6 +37,24 @@ if TYPE_CHECKING:
     from graphrag.config.models.language_model_config import LanguageModelConfig
 
 litellm.suppress_debug_info = True
+# Reduce/disable LiteLLM background logging workers to avoid event loop binding issues in Streamlit
+try:
+    import os as _os
+    _os.environ.setdefault("LITELLM_LOGGING", "")
+    _os.environ.setdefault("LITELLM_USE_BACKGROUND_THREAD", "false")
+    _os.environ.setdefault("LITELLM_LOGGING_QUEUE", "false")
+    if hasattr(litellm, "logging"):
+        try:
+            litellm.logging = None  # type: ignore
+        except Exception:
+            ...
+    if hasattr(litellm, "turn_off_streaming_logging"):
+        try:
+            litellm.turn_off_streaming_logging()  # type: ignore
+        except Exception:
+            ...
+except Exception:
+    ...
 
 
 def _create_base_embeddings(
