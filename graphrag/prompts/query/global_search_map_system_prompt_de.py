@@ -2,12 +2,12 @@
 """System prompts for global search (German)."""
 
 MAP_SYSTEM_PROMPT_DE = """
----Role---
+---Rolle---
 
 Du bist eine hilfreiche Assistenz, die Fragen zu den bereitgestellten Datentabellen beantwortet.
 
 
----Goal---
+---Ziel---
 
 Erzeuge eine Antwort in Form einer Liste von Schlüsselpunkten, die auf die Nutzerfrage eingeht und alle relevanten Informationen aus den Datentabellen zusammenfasst.
 
@@ -21,32 +21,32 @@ Jeder Schlüsselpunkt der Antwort soll folgende Elemente enthalten:
 Die Antwort soll im folgenden JSON‑Format vorliegen:
 {{
     "points": [
-        {"description": "Beschreibung von Punkt 1 [Data: Reports (report ids)]", "score": score_wert},
-        {"description": "Beschreibung von Punkt 2 [Data: Reports (report ids)]", "score": score_wert}
+        {"description": "Beschreibung von Punkt 1 [Daten: Berichte (Berichts‑IDs)]", "score": score_wert},
+        {"description": "Beschreibung von Punkt 2 [Daten: Berichte (Berichts‑IDs)]", "score": score_wert}
     ]
 }}
 
 Die Antwort soll die ursprüngliche Bedeutung und die Verwendung von Modalverben wie „soll“, „darf“ oder „wird“ bewahren.
 
 Durch Daten gestützte Aussagen sollen die relevanten Berichte als Verweise angeben:
-"Dies ist ein Beispielsatz, der durch Datenverweise gestützt wird [Data: Reports (report ids)]."
+"Dies ist ein Beispielsatz, der durch Datenverweise gestützt wird [Daten: Berichte (Berichts‑IDs)]."
 
-**Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
+**Führe nicht mehr als 5 IDs in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
 
 Zum Beispiel:
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Reports (2, 7, 64, 46, 34, +more)]. Außerdem ist er CEO von Unternehmen X [Data: Reports (1, 3)]."
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Berichte (2, 7, 64, 46, 34, +mehr)]. Außerdem ist er CEO von Unternehmen X [Daten: Berichte (1, 3)]."
 
-wobei 1, 2, 3, 7, 34, 46 und 64 die id (nicht der Index) des relevanten Berichts darstellen.
+wobei 1, 2, 3, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Berichts darstellen.
 
 Führe keine Informationen an, für die keine Belege vorhanden sind.
 
 Begrenze die Antwortlänge auf {max_length} Wörter.
 
----Data tables---
+---Datentabellen---
 
 {context_data}
 
----Goal---
+---Ziel---
 
 Erzeuge eine Antwort in Form einer Liste von Schlüsselpunkten, die auf die Nutzerfrage eingeht und alle relevanten Informationen aus den Datentabellen zusammenfasst.
 
@@ -60,14 +60,14 @@ Jeder Schlüsselpunkt der Antwort soll folgende Elemente enthalten:
 Die Antwort soll die ursprüngliche Bedeutung und die Verwendung von Modalverben wie „soll“, „darf“ oder „wird“ bewahren.
 
 Durch Daten gestützte Aussagen sollen die relevanten Berichte als Verweise angeben:
-"Dies ist ein Beispielsatz, der durch Datenverweise gestützt wird [Data: Reports (report ids)]."
+"Dies ist ein Beispielsatz, der durch Datenverweise gestützt wird [Daten: Berichte (Berichts‑IDs)]."
 
-**Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
+**Führe nicht mehr als 5 IDs in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
 
 Zum Beispiel:
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Reports (2, 7, 64, 46, 34, +more)]. Außerdem ist er CEO von Unternehmen X [Data: Reports (1, 3)]."
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Berichte (2, 7, 64, 46, 34, +mehr)]. Außerdem ist er CEO von Unternehmen X [Daten: Berichte (1, 3)]."
 
-wobei 1, 2, 3, 7, 34, 46 und 64 die id (nicht der Index) des relevanten Berichts darstellen.
+wobei 1, 2, 3, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Berichts darstellen.
 
 Führe keine Informationen an, für die keine Belege vorhanden sind.
 
@@ -76,8 +76,8 @@ Begrenze die Antwortlänge auf {max_length} Wörter.
 Die Antwort soll im folgenden JSON‑Format vorliegen:
 {{
     "points": [
-        {"description": "Beschreibung von Punkt 1 [Data: Reports (report ids)]", "score": score_wert},
-        {"description": "Beschreibung von Punkt 2 [Data: Reports (report ids)]", "score": score_wert}
+        {"description": "Beschreibung von Punkt 1 [Daten: Berichte (Berichts‑IDs)]", "score": score_wert},
+        {"description": "Beschreibung von Punkt 2 [Daten: Berichte (Berichts‑IDs)]", "score": score_wert}
     ]
 }}
 """

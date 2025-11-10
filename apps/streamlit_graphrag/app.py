@@ -492,6 +492,7 @@ def test_llm_connection(cfg) -> tuple[bool, str]:
         return False, str(e)
 
 
+
 def save_uploaded_files(files: List[Any], dest_dir: Path) -> List[Path]:
     dest_dir.mkdir(parents=True, exist_ok=True)
     saved: List[Path] = []
@@ -715,7 +716,10 @@ with st.sidebar:
             except Exception:
                 pass
             if st.session_state.get("german_default"):
-                # Nur deutsche Ausgaberichtlinie an bestehende Prompts anhängen (keine _de‑Dateien verwenden)
+                # Strikt DE-Prompts für Index nutzen (native deutsche Titel/Beschreibungen)
+                ensure_de_index_prompts(root_dir)
+                prefer_de_index_prompts(cfg, root_dir)
+                # Ausgabe-Hinweis anhängen
                 apply_german_defaults(root_dir)
             st.write("Starte Indexierung… Dies kann je nach Daten dauern.")
 
@@ -872,17 +876,58 @@ with tab_chat:
                     )
                 )
 
-            st.markdown("### Antwort")
+            # Sprachabhängige Titel
+            is_de = bool(st.session_state.get("german_default", True))
+            title_answer = "Antwort" if is_de else "Answer"
+            title_context = "Kontext" if is_de else "Context"
+            title_expander = "Kontextdaten anzeigen" if is_de else "Show context data"
+
+            st.markdown(f"### {title_answer}")
             st.write(answer)
 
-            st.markdown("### Kontext")
+            st.markdown(f"### {title_context}")
             try:
                 reformatted = reformat_context_data(context)
-                with st.expander("Kontextdaten anzeigen"):
+                # Mapping der Kontext-Schlüssel auf Anzeige-Labels (nur UI, keine Schlüsseländerung)
+                key_map_de = {
+                    "reports": "Berichte",
+                    "entities": "Entitäten",
+                    "relationships": "Beziehungen",
+                    "text_units": "Text‑Einheiten",
+                    "communities": "Communities",
+                    "community_reports": "Community‑Berichte",
+                    "covariates": "Kovariaten",
+                    "sources": "Quellen",
+                }
+                with st.expander(title_expander):
                     for key, records in reformatted.items():
                         if isinstance(records, list) and len(records) > 0 and isinstance(records[0], dict):
-                            st.markdown(f"**{key}**")
-                            st.dataframe(pd.DataFrame(records))
+                            display_key = key_map_de.get(key, key) if is_de else key
+                            st.markdown(f"**{display_key}**")
+                            # Localize column labels for display (do not change underlying keys)
+                            show_records = records
+                            if is_de:
+                                col_map = {
+                                    "title": "Titel",
+                                    "content": "Inhalt",
+                                    "description": "Beschreibung",
+                                    "source": "Quelle",
+                                    "target": "Ziel",
+                                    "report_id": "Report‑ID",
+                                    "community_id": "Community‑ID",
+                                    "entity_id": "Entitäts‑ID",
+                                    "relationship_id": "Beziehungs‑ID",
+                                    "score": "Score",
+                                    "type": "Typ",
+                                    "id": "ID",
+                                }
+                                localized_records = [
+                                    {col_map.get(k, k): v for k, v in rec.items()}
+                                    for rec in show_records
+                                ]
+                                st.dataframe(pd.DataFrame(localized_records))
+                            else:
+                                st.dataframe(pd.DataFrame(show_records))
             except Exception:
                 pass
 
