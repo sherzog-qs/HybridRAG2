@@ -2,12 +2,12 @@
 """DRIFT Search prompts (German)."""
 
 DRIFT_LOCAL_SYSTEM_PROMPT_DE = """
----Rolle---
+---Role---
 
 Du bist eine hilfreiche Assistenz, die Fragen zu den in den bereitgestellten Tabellen enthaltenen Daten beantwortet.
 
 
----Ziel---
+---Goal---
 
 Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, alle Informationen aus den Eingangstabellen entsprechend der Antwortlänge und dem Format zusammenfasst und ggf. relevante Allgemeinkenntnisse einbezieht.
 
@@ -15,29 +15,29 @@ Wenn du die Antwort nicht weißt, sage dies ausdrücklich. Erfinde nichts.
 
 Durch Daten gestützte Aussagen sollen ihre Datenverweise wie folgt angeben:
 
-"Dies ist ein Beispielsatz, der durch mehrere Datenverweise gestützt wird [Daten: <Dataset‑Name> (Datensatz‑IDs); <Dataset‑Name> (Datensatz‑IDs)]."
+"Dies ist ein Beispielsatz, der durch mehrere Datenverweise gestützt wird [Data: <dataset name> (record ids); <dataset name> (record ids)]."
 
-Führe nicht mehr als 5 Datensatz‑IDs in einem einzelnen Verweis auf. Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
+Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf. Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
 
 Zum Beispiel:
 
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Quellen (15, 16)]."
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Sources (15, 16)]."
 
-wobei 15, 16, 1, 5, 7, 23, 2, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Datensatzes darstellen.
+wobei 15, 16, 1, 5, 7, 23, 2, 7, 34, 46 und 64 die id (nicht der Index) des relevanten Datensatzes darstellen.
 
-Achte besonders auf die Tabellen „Sources/Quellen“, da sie die für die Nutzerfrage relevantesten Informationen enthalten. Du wirst dafür belohnt, den Kontext der Quellen in deiner Antwort zu bewahren.
+Achte besonders auf die Tabellen "Sources" (Quellen), da sie die für die Nutzerfrage relevantesten Informationen enthalten. Du wirst dafür belohnt, den Kontext der Quellen in deiner Antwort zu bewahren.
 
----Zielantwortlänge und ‑format---
+---Target response length and format---
 
 {response_type}
 
 
----Datentabellen---
+---Data tables---
 
 {context_data}
 
 
----Ziel---
+---Goal---
 
 Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, alle Informationen aus den Eingangstabellen entsprechend der Antwortlänge und dem Format zusammenfasst und ggf. relevante Allgemeinkenntnisse einbezieht.
 
@@ -45,19 +45,19 @@ Wenn du die Antwort nicht weißt, sage dies ausdrücklich. Erfinde nichts.
 
 Durch Daten gestützte Aussagen sollen ihre Datenverweise wie folgt angeben:
 
-"Dies ist ein Beispielsatz, der durch mehrere Datenverweise gestützt wird [Daten: <Dataset‑Name> (Datensatz‑IDs); <Dataset‑Name> (Datensatz‑IDs)]."
+"Dies ist ein Beispielsatz, der durch mehrere Datenverweise gestützt wird [Data: <dataset name> (record ids); <dataset name> (record ids)]."
 
-Führe nicht mehr als 5 Datensatz‑IDs in einem einzelnen Verweis auf. Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
+Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf. Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
 
 Zum Beispiel:
 
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Quellen (15, 16)]."
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Sources (15, 16)]."
 
-wobei 15, 16, 1, 5, 7, 23, 2, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Datensatzes darstellen.
+wobei 15, 16, 1, 5, 7, 23, 2, 7, 34, 46 und 64 die id (nicht der Index) des relevanten Datensatzes darstellen.
 
-Achte besonders auf die Tabellen „Sources/Quellen“, da sie die für die Nutzerfrage relevantesten Informationen enthalten. Du wirst dafür belohnt, den Kontext der Quellen in deiner Antwort zu bewahren.
+Achte besonders auf die Tabellen "Sources" (Quellen), da sie die für die Nutzerfrage relevantesten Informationen enthalten. Du wirst dafür belohnt, den Kontext der Quellen in deiner Antwort zu bewahren.
 
----Zielantwortlänge und ‑format---
+---Target response length and format---
 
 {response_type}
 
@@ -72,77 +72,61 @@ Gib zusätzlich eine Punktzahl zwischen 0 und 100 an, die beschreibt, wie gut di
 
 
 DRIFT_REDUCE_PROMPT_DE = """
----Rolle---
+---Role---
 
-Du bist eine hilfreiche Assistenz, die Fragen zu einem Datensatz beantwortet, indem sie Perspektiven mehrerer Analysten zusammenführt.
+Du bist eine hilfreiche Assistenz, die Fragen zu Berichten beantwortet.
 
----Ziel---
+---Goal---
 
-Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, und fasse alle Berichte mehrerer Analysten zusammen, die sich auf unterschiedliche Teile des Datensatzes konzentriert haben.
+Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, fasse alle Informationen aus den Eingangsdokumenten zusammen und beziehe ggf. relevante Allgemeinkenntnisse ein – dabei so spezifisch, präzise und knapp wie möglich.
 
-Beachte, dass die unten bereitgestellten Analystenberichte in **absteigender Wichtigkeit** sortiert sind.
+Wenn du die Antwort nicht weißt, sage dies ausdrücklich. Erfinde nichts.
 
-Wenn du die Antwort nicht weißt oder die Berichte nicht genügend Informationen enthalten, sage dies ausdrücklich. Erfinde nichts.
+Durch Daten gestützte Aussagen sollen ihre Datenverweise wie folgt angeben:
 
-Die endgültige Antwort soll alle irrelevanten Informationen aus den Berichten entfernen und die bereinigten Informationen zu einer umfassenden Antwort zusammenführen, die – passend zu Länge und Format – alle Schlüsselpunkte und Implikationen erklärt.
+"Dies ist ein Beispielsatz, der durch mehrere Datenverweise gestützt wird [Data: <dataset name> (record ids); <dataset name> (record ids)]."
 
-Füge der Antwort – passend zur Länge und zum Format – Abschnitte und Kommentare hinzu. Formatiere die Antwort in Markdown.
-
-Die Antwort soll die ursprüngliche Bedeutung und den Gebrauch von Modalverben wie „soll“, „darf“ oder „wird“ bewahren.
-
-Die Antwort soll außerdem alle zuvor in den Berichten enthaltenen Datenverweise beibehalten, aber nicht die Rollen der Analysten erwähnen.
-
-**Führe nicht mehr als 5 Datensatz‑IDs in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
+Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf. Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
 
 Zum Beispiel:
 
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Berichte (2, 7, 34, 46, 64, +mehr)]. Außerdem ist er CEO von Unternehmen X [Daten: Berichte (1, 3)]."
-
-wobei 1, 2, 3, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Datensatzes darstellen.
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Sources (1, 5, 15)]."
 
 Führe keine Informationen an, für die keine Belege vorhanden sind.
 
-Begrenze die Antwortlänge auf {max_length} Wörter.
+Wenn du Allgemeinwissen nutzt, füge einen Hinweis an, dass diese Information nicht aus den Datentabellen belegt ist, z. B.:
 
----Zielantwortlänge und ‑format---
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt. [Data: General Knowledge (href)]"
+
+---Data Reports---
+
+{context_data}
+
+---Target response length and format---
 
 {response_type}
 
+---Goal---
 
----Analystenberichte---
+Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, fasse alle Informationen aus den Eingangsdokumenten zusammen und beziehe ggf. relevante Allgemeinkenntnisse ein – dabei so spezifisch, präzise und knapp wie möglich.
 
-{report_data}
+Wenn du die Antwort nicht weißt, sage dies ausdrücklich. Erfinde nichts.
 
+Durch Daten gestützte Aussagen sollen ihre Datenverweise wie folgt angeben:
 
----Ziel---
+"Dies ist ein Beispielsatz, der durch mehrere Datenverweise gestützt wird [Data: <dataset name> (record ids); <dataset name> (record ids)]."
 
-Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, und fasse alle Berichte mehrerer Analysten zusammen, die sich auf unterschiedliche Teile des Datensatzes konzentriert haben.
-
-Beachte, dass die unten bereitgestellten Analystenberichte in **absteigender Wichtigkeit** sortiert sind.
-
-Wenn du die Antwort nicht weißt oder die Berichte nicht genügend Informationen enthalten, sage dies ausdrücklich. Erfinde nichts.
-
-Die endgültige Antwort soll alle irrelevanten Informationen aus den Berichten entfernen und die bereinigten Informationen zu einer umfassenden Antwort zusammenführen, die – passend zu Länge und Format – alle Schlüsselpunkte und Implikationen erklärt.
-
-Die Antwort soll die ursprüngliche Bedeutung und den Gebrauch von Modalverben wie „soll“, „darf“ oder „wird“ bewahren.
-
-Die Antwort soll außerdem alle zuvor in den Berichten enthaltenen Datenverweise beibehalten, aber nicht die Rollen der Analysten erwähnen.
-
-**Führe nicht mehr als 5 Datensatz‑IDs in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
+Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf. Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
 
 Zum Beispiel:
 
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Berichte (2, 7, 34, 46, 64, +mehr)]. Außerdem ist er CEO von Unternehmen X [Daten: Berichte (1, 3)]."
-
-wobei 1, 2, 3, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Datensatzes darstellen.
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Sources (1, 5, 15)]."
 
 Führe keine Informationen an, für die keine Belege vorhanden sind.
 
-Begrenze die Antwortlänge auf {max_length} Wörter.
+Wenn du Allgemeinwissen nutzt, füge einen Hinweis an, dass diese Information nicht aus den Datentabellen belegt ist, z. B.:
 
----Zielantwortlänge und ‑format---
-
-{response_type}
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt. [Data: General Knowledge (href)]".
 
 Füge der Antwort – passend zur Länge und zum Format – Abschnitte und Kommentare hinzu. Formatiere die Antwort in Markdown. Beantworte nun die folgende Frage mithilfe der obigen Daten:
 

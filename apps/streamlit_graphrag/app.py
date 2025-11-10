@@ -50,6 +50,21 @@ from graphrag.prompts.query.global_search_reduce_system_prompt import (
 )
 from graphrag.prompts.query.local_search_system_prompt import LOCAL_SEARCH_SYSTEM_PROMPT
 from graphrag.prompts.query.question_gen_system_prompt import QUESTION_SYSTEM_PROMPT
+# German variants for seeding
+from graphrag.prompts.query.basic_search_system_prompt_de import BASIC_SEARCH_SYSTEM_PROMPT_DE
+from graphrag.prompts.query.drift_search_system_prompt_de import (
+    DRIFT_LOCAL_SYSTEM_PROMPT_DE,
+    DRIFT_REDUCE_PROMPT_DE,
+)
+from graphrag.prompts.query.global_search_knowledge_system_prompt_de import (
+    GENERAL_KNOWLEDGE_INSTRUCTION_DE,
+)
+from graphrag.prompts.query.global_search_map_system_prompt_de import MAP_SYSTEM_PROMPT_DE
+from graphrag.prompts.query.global_search_reduce_system_prompt_de import (
+    REDUCE_SYSTEM_PROMPT_DE,
+)
+from graphrag.prompts.query.local_search_system_prompt_de import LOCAL_SEARCH_SYSTEM_PROMPT_DE
+from graphrag.prompts.query.question_gen_system_prompt_de import QUESTION_SYSTEM_PROMPT_DE
 
 # --------------
 # Helpers & Callbacks
@@ -535,7 +550,8 @@ st.title("GraphRAG – Streamlit GUI (Deutsch)")
 def seed_prompts_only(root_dir: Path, force: bool = False) -> int:
     prompts_dir = root_dir / "prompts"
     prompts_dir.mkdir(parents=True, exist_ok=True)
-    prompts = {
+    # English originals
+    prompts_en = {
         "extract_graph": GRAPH_EXTRACTION_PROMPT,
         "summarize_descriptions": SUMMARIZE_PROMPT,
         "extract_claims": EXTRACT_CLAIMS_PROMPT,
@@ -550,8 +566,24 @@ def seed_prompts_only(root_dir: Path, force: bool = False) -> int:
         "basic_search_system_prompt": BASIC_SEARCH_SYSTEM_PROMPT,
         "question_gen_system_prompt": QUESTION_SYSTEM_PROMPT,
     }
+    # German counterparts
+    prompts_de = {
+        "drift_search_system_prompt_de": DRIFT_LOCAL_SYSTEM_PROMPT_DE,
+        "drift_reduce_prompt_de": DRIFT_REDUCE_PROMPT_DE,
+        "global_search_map_system_prompt_de": MAP_SYSTEM_PROMPT_DE,
+        "global_search_reduce_system_prompt_de": REDUCE_SYSTEM_PROMPT_DE,
+        "global_search_knowledge_system_prompt_de": GENERAL_KNOWLEDGE_INSTRUCTION_DE,
+        "local_search_system_prompt_de": LOCAL_SEARCH_SYSTEM_PROMPT_DE,
+        "basic_search_system_prompt_de": BASIC_SEARCH_SYSTEM_PROMPT_DE,
+        "question_gen_system_prompt_de": QUESTION_SYSTEM_PROMPT_DE,
+    }
     created = 0
-    for name, content in prompts.items():
+    for name, content in prompts_en.items():
+        prompt_file = prompts_dir / f"{name}.txt"
+        if not prompt_file.exists() or force:
+            prompt_file.write_text(content, encoding="utf-8")
+            created += 1
+    for name, content in prompts_de.items():
         prompt_file = prompts_dir / f"{name}.txt"
         if not prompt_file.exists() or force:
             prompt_file.write_text(content, encoding="utf-8")
@@ -620,8 +652,8 @@ with st.sidebar:
 
     st.toggle("Deutsch als Standardsprache", value=True, key="german_default")
     if st.session_state.get("german_default"):
-        # Deutsch aktiv: DE‑Query‑Prompts sicherstellen (Kopien erzeugen) – EN bleiben parallel bestehen
-        ensure_de_query_prompts(root_dir)
+        # Deutsch aktiv: bestehende Prompts mit deutscher Ausgaberichtlinie versehen (kein _de‑Umschalten)
+        apply_german_defaults(root_dir)
 
     st.divider()
 
@@ -655,10 +687,8 @@ with st.sidebar:
         try:
             cfg = load_config(root_dir, cfg_path) if cfg_path else load_config(root_dir)
             if st.session_state.get("german_default"):
-                ensure_de_query_prompts(root_dir)
-                ensure_de_index_prompts(root_dir)
-                prefer_de_query_prompts(cfg, root_dir)
-                prefer_de_index_prompts(cfg, root_dir)
+                # Nur deutsche Ausgaberichtlinie an bestehende Prompts anhängen (keine _de‑Dateien verwenden)
+                apply_german_defaults(root_dir)
             st.write("Starte Indexierung… Dies kann je nach Daten dauern.")
 
             # Terminal writer
@@ -751,8 +781,8 @@ with tab_chat:
         try:
             cfg = load_config(root_dir, cfg_path) if cfg_path else load_config(root_dir)
             if st.session_state.get("german_default"):
-                ensure_de_query_prompts(root_dir)
-                prefer_de_query_prompts(cfg, root_dir)
+                # Nur deutsche Ausgaberichtlinie an bestehende Prompts anhängen (keine _de‑Dateien verwenden)
+                apply_german_defaults(root_dir)
 
             if method == SearchMethod.BASIC.value:
                 dfs = run_async(_load_outputs_basic_single(cfg))

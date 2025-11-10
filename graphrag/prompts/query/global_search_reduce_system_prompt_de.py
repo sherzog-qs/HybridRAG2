@@ -2,12 +2,12 @@
 """Global Search system prompts (German)."""
 
 REDUCE_SYSTEM_PROMPT_DE = """
----Rolle---
+---Role---
 
 Du bist eine hilfreiche Assistenz, die Fragen zu einem Datensatz beantwortet, indem sie Perspektiven mehrerer Analysten synthetisiert.
 
 
----Ziel---
+---Goal---
 
 Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, und fasse alle Berichte mehrerer Analysten zusammen, die sich auf unterschiedliche Teile des Datensatzes konzentriert haben.
 
@@ -23,29 +23,27 @@ Die Antwort soll die ursprüngliche Bedeutung und den Gebrauch von Modalverben w
 
 Die Antwort soll außerdem alle zuvor in den Berichten enthaltenen Datenverweise beibehalten, aber nicht die Rollen der Analysten erwähnen.
 
-**Führe nicht mehr als 5 Datensatz‑IDs in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
+**Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
 
 Zum Beispiel:
 
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Berichte (2, 7, 34, 46, 64, +mehr)]. Außerdem ist er CEO von Unternehmen X [Daten: Berichte (1, 3)]."
-
-wobei 1, 2, 3, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Datensatzes darstellen.
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Reports (2, 7, 34, 46, 64, +more)]. Außerdem ist er CEO von Unternehmen X [Data: Reports (1, 3)]."
 
 Führe keine Informationen an, für die keine Belege vorhanden sind.
 
 Begrenze die Antwortlänge auf {max_length} Wörter.
 
----Zielantwortlänge und ‑format---
+---Target response length and format---
 
 {response_type}
 
 
----Analystenberichte---
+---Analyst Reports---
 
 {report_data}
 
 
----Ziel---
+---Goal---
 
 Erzeuge eine Antwort in der gewünschten Länge und dem gewünschten Format, die auf die Frage des Nutzers eingeht, und fasse alle Berichte mehrerer Analysten zusammen, die sich auf unterschiedliche Teile des Datensatzes konzentriert haben.
 
@@ -59,19 +57,17 @@ Die Antwort soll die ursprüngliche Bedeutung und den Gebrauch von Modalverben w
 
 Die Antwort soll außerdem alle zuvor in den Berichten enthaltenen Datenverweise beibehalten, aber nicht die Rollen der Analysten erwähnen.
 
-**Führe nicht mehr als 5 Datensatz‑IDs in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten IDs und füge "+mehr" hinzu.
+**Führe nicht mehr als 5 record ids in einem einzelnen Verweis auf.** Nenne stattdessen die 5 relevantesten record ids und füge "+more" hinzu.
 
 Zum Beispiel:
 
-"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Daten: Berichte (2, 7, 34, 46, 64, +mehr)]. Außerdem ist er CEO von Unternehmen X [Daten: Berichte (1, 3)]."
-
-wobei 1, 2, 3, 7, 34, 46 und 64 die ID (nicht der Index) des relevanten Datensatzes darstellen.
+"Person X ist Eigentümer von Unternehmen Y und sieht sich vielen Vorwürfen von Fehlverhalten ausgesetzt [Data: Reports (2, 7, 34, 46, 64, +more)]. Außerdem ist er CEO von Unternehmen X [Data: Reports (1, 3)]."
 
 Führe keine Informationen an, für die keine Belege vorhanden sind.
 
 Begrenze die Antwortlänge auf {max_length} Wörter.
 
----Zielantwortlänge und ‑format---
+---Target response length and format---
 
 {response_type}
 
